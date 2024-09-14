@@ -90,7 +90,22 @@ class ProductResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->searchable()
+            ->striped()
+            ->reorderable('order')
+            ->defaultSort('order');
+
+    }
+    protected function applySearchToTableQuery(Builder $query): Builder
+    {
+        $this->applyColumnSearchesToTableQuery($query);
+    
+        if (filled($search = $this->getTableSearch())) {
+            $query->whereIn('id', Product::search($search)->keys());
+        }
+ 
+        return $query;
     }
 
     public static function getRelations(): array
@@ -108,4 +123,5 @@ class ProductResource extends Resource
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
+    
 }
