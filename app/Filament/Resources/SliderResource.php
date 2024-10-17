@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\SliderResource\Pages;
 use App\Filament\Resources\SliderResource\RelationManagers;
 use App\Models\Slider;
@@ -28,6 +29,8 @@ class SliderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-c-camera';
 
+    protected static ?int $navigationSort = 4;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -40,9 +43,13 @@ class SliderResource extends Resource
                 Toggle::make('status'),
                 Toggle::make('footer')
                     ->reactive(),
-                RichEditor::make('more')
+                TinyEditor::make('more')
+                    ->label('Description')
                     ->columnSpan(2)
                     ->hidden(fn ($get) => !$get('footer')),
+                // RichEditor::make('more')
+                //     ->columnSpan(2)
+                //     ->hidden(fn ($get) => !$get('footer')),
             ]);
     }
 
@@ -52,7 +59,8 @@ class SliderResource extends Resource
             ->columns([
                 TextColumn::make('title'),
                 ImageColumn::make('image'),
-                ToggleColumn::make('status')
+                ToggleColumn::make('status'),
+                ToggleColumn::make('footer')
             ])
             ->filters([
                 //

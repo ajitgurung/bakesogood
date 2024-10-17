@@ -12,4 +12,13 @@ class Product extends Model
     protected $fillable = [
         'name', 'slug', 'description', 'category_id', 'status', 'featured', 'dis_price', 'dis_per', 'price', 'image', 'order'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function getPriceAttribute($value){
+        return $value;
+    }
 }

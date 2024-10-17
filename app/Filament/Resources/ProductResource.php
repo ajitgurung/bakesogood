@@ -31,6 +31,8 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
 
+    protected static ?int $navigationSort = 3;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -74,7 +76,7 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'), 
+                TextColumn::make('name'),
                 ImageColumn::make('image'),
                 ToggleColumn::make('status'),
                 ToggleColumn::make('featued')
@@ -100,11 +102,11 @@ class ProductResource extends Resource
     protected function applySearchToTableQuery(Builder $query): Builder
     {
         $this->applyColumnSearchesToTableQuery($query);
-    
+
         if (filled($search = $this->getTableSearch())) {
             $query->whereIn('id', Product::search($search)->keys());
         }
- 
+
         return $query;
     }
 
@@ -123,5 +125,5 @@ class ProductResource extends Resource
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
-    
+
 }

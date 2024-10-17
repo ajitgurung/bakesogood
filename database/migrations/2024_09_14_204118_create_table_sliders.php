@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('image');
             $table->integer('order');
             $table->boolean('status')->default('0');
+            $table->boolean('footer')->default(0);
             $table->text('more')->nullable();
             $table->timestamps();
         });
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('table_sliders');
+        Schema::dropIfExists('sliders');
     }
 };

@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function verificationStatus(): string
+    {
+        return $this->hasVerifiedEmail() ? 'Verified' : 'Not Verified';
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
