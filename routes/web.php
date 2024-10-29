@@ -14,11 +14,10 @@ Route::get('/', function () {
     return view('frontend.welcome');
 })->name('home');
 
-Route::get('/shop/{slug}', function () {
-    return view('frontend.shop', compact('slug'));
-})->name('shop');
+Route::get('/shop/{slug}', [ViewController::class, 'shop'])->name('shop');
 
 Route::get('/product/{product_slug}', [ViewController::class, 'product'])->name('product');
+Route::get('/about', [ViewController::class, 'about'])->name('about');
 
 Route::get('/contact', function () {
     return view('frontend.contact');

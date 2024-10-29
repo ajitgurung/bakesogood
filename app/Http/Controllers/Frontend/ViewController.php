@@ -17,9 +17,15 @@ class ViewController extends Controller
 
         return view('frontend.product', compact('product'));
     }
-
-    public function shop()
-    {
     
+
+    public function about()
+    {
+        return view('frontend.about');
+    }
+
+    public function shop($slug)
+    {
+        return view('frontend.shop', compact('slug'));
     }
 }
