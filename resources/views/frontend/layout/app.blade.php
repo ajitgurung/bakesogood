@@ -12,13 +12,12 @@
     <title>@yield('title', 'AMAZING') | BakeSoGood</title>
 
     @if (!empty($setting->favicon))
-        <link rel="icon" href="{{ asset('storage/' . $setting->favicon) }}" type="image/webp">
+        <!-- favicon -->
+        <link rel="shortcut icon" type="image/png" href="{{ asset('storage/' . $setting->favicon) }}">
     @endif
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- favicon -->
-    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">

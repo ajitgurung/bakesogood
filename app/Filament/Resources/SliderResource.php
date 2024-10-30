@@ -72,7 +72,9 @@ class SliderResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->reorderable('order')
+            ->defaultSort('order');
     }
 
     public static function getRelations(): array
