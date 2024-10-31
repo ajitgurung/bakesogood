@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\ContactFormMail;
 
 class MessageController extends Controller
 {
@@ -37,6 +38,7 @@ class MessageController extends Controller
 
         if($message)
         {
+            Mail::to('ajit@goodiesbakery.ca')->send(new ContactFormMail($data));
             return redirect()->back()->with('success', 'Message delivered successfully!');
         } else
         {
