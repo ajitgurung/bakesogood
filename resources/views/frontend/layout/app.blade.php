@@ -9,7 +9,7 @@
         content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
     <!-- title -->
-    <title>@yield('title', 'AMAZING') | BakeSoGood</title>
+    <title>@yield('title', 'AMAZING') | Goodies Bakery</title>
 
     @if (!empty($setting->favicon))
         <!-- favicon -->
@@ -73,6 +73,28 @@
             min-width: 20px;
             /* Minimum width to keep it circular */
             text-align: center;
+        }
+
+        /* @media only screen and (max-width: 640px) {
+            .cart-count {
+                background-color: #f28123 !important;
+                top: 5px !important;
+                right: 445px;
+                width: 15px;
+                height: 15px;
+                border-radius: 50%;
+                font-size: 10px;
+                padding: 2px 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        } */
+
+        @media only screen and (max-width: 640px) {
+            .cart-count {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -219,7 +241,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-12">
-                    <p>Copyrights &copy; 2024 - <a href="#">Ajit Gurung</a>, All Rights
+                    <p>Copyrights &copy; 2024 - <a href="#">Goodies Bakery</a>, All Rights
                         Reserved.<br>
                     </p>
                 </div>
