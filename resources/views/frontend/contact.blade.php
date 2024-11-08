@@ -28,8 +28,8 @@
                     </div>
                     <div id="form_status"></div>
                     <div class="contact-form">
-                        <form method="POST" action="{{route('message.store')}}" id="fruitkha-contact">
-							@csrf
+                        <form method="POST" action="{{ route('message.store') }}" id="contact_form">
+                            @csrf
                             <p>
                                 <input type="text" placeholder="Name" name="name" id="name" required>
                                 <input type="email" placeholder="Email" name="email" id="email" required>
@@ -41,7 +41,9 @@
                             <p>
                                 <textarea name="message" id="message" cols="30" rows="10" placeholder="Message" required></textarea>
                             </p>
-							{{-- <p><button type="submit">Submit</button></p> --}}
+                            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+
+                            {{-- <p><button type="submit">Submit</button></p> --}}
                             <p><input type="submit" value="Submit"></p>
                         </form>
                     </div>
@@ -86,3 +88,15 @@
     </div>
     <!-- end google map section -->
 @endsection
+
+@push('after-scripts')
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {
+                action: 'submit'
+            }).then(function(token) {
+                document.getElementById('g-recaptcha-response').value = token;
+            });
+        });
+    </script>
+@endpush

@@ -19,12 +19,25 @@ class MessageController extends Controller
             'phone' => 'required',
             'subject' => 'required',
             'message' => 'required',
+            'g-recaptcha-response' => 'required',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
+        }
+
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => config('services.recaptcha.secret_key'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip(), // Optional: User's IP for additional security
+        ]);
+
+        $result = $response->json();
+
+        if (!$result['success'] || $result['score'] < 0.5) { // Adjust score threshold based on needs
+            return redirect()->back()->withErrors(['captcha' => 'reCAPTCHA verification failed. Please try again.']);
         }
 
         $data = [
