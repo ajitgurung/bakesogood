@@ -3,20 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SettingResource\Pages;
-use App\Filament\Resources\SettingResource\RelationManagers;
 use App\Models\Setting;
-use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Select;
 
 class SettingResource extends Resource
 {
@@ -55,6 +49,16 @@ class SettingResource extends Resource
                     ->required(),
                 FileUpload::make('favicon')
                     ->required(),
+                TextInput::make('og_title')
+                    ->label('OG Title'),
+                TextArea::make('og_description')
+                    ->label('OG Description'),
+                TextInput::make('meta_title')
+                    ->label('Meta Title'),
+                TextArea::make('meta_description')
+                    ->label('Meta Description'),
+                FileUpload::make('og_image')
+                    ->label('OG Image'),
             ]);
     }
 

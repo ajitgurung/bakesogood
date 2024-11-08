@@ -28,7 +28,7 @@
                     </div>
                     <div id="form_status"></div>
                     <div class="contact-form">
-                        <form method="POST" action="{{ route('message.store') }}" id="contact_form">
+                        <form method="POST" action="{{ route('message.store') }}" id="contact-form">
                             @csrf
                             <p>
                                 <input type="text" placeholder="Name" name="name" id="name" required>
