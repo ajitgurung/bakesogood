@@ -125,18 +125,19 @@
 
                         <!-- menu start -->
                         <nav class="main-menu">
+                            @php
+                                function activeClass($routeName)
+                                {
+                                    return request()->routeIs($routeName) ? 'current-list-item' : '';
+                                }
+                            @endphp
                             <ul>
-                                <li class="current-list-item"><a href="{{ route('home') }}">Home</a>
+                                <li class="{{ activeClass('home') }}"><a href="{{ route('home') }}">Home</a>
                                 </li>
-                                <li><a href="{{ route('about') }}">About</a></li>
-                                {{-- <li><a href="news.html">News</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="news.html">News</a></li>
-                                        <li><a href="single-news.html">Single News</a></li>
-                                    </ul>
-                                </li> --}}
-                                <li><a href="{{ route('contact') }}">Contact</a></li>
-                                <li><a href="{{ route('shop', 'all') }}">Shop</a>
+                                <li class="{{ activeClass('about') }}"><a href="{{ route('about') }}">About</a></li>
+                                <li class="{{ activeClass('contact') }}"><a href="{{ route('contact') }}">Contact</a>
+                                </li>
+                                <li class="{{ activeClass('shop') }}"><a href="{{ route('shop', 'all') }}">Shop</a>
                                 </li>
                                 @php
                                     $cart = Session::get('cart');
