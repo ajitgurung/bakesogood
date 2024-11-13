@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-        content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+    <meta name="description" content="Best Brazilian Bakery in Toronto">
 
     <!-- title -->
     <title>@yield('title', 'AMAZING') | Goodies Bakery</title>
@@ -150,8 +149,10 @@
                                         <a class="shopping-cart" href="{{ route('cart') }}"><i
                                                 class="fas fa-shopping-cart"></i><span
                                                 class="cart-count">{{ $qty ?? 0 }}</span></a>
-                                        <a class="user-profile" href="{{ route('dashboard') }}"><i
-                                                class="fas fa-user"></i></a>
+                                        @if (auth()->check())
+                                            <a class="user-profile" href="{{ route('dashboard') }}"><i
+                                                    class="fas fa-user"></i></a>
+                                        @endif
                                         <a class="mobile-hide search-bar-icon" href="{{ route('cart') }}"><i
                                                 class="fas fa-search"></i></a>
                                     </div>
