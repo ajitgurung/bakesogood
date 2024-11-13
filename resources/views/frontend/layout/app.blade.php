@@ -150,7 +150,8 @@
                                                 class="fas fa-shopping-cart"></i><span
                                                 class="cart-count">{{ $qty ?? 0 }}</span></a>
                                         @if (auth()->check())
-                                            <a class="user-profile" href="{{ route('dashboard') }}"><i
+                                            <a class="user-profile"
+                                                href="{{ route('filament.admin.pages.dashboard') }}"><i
                                                     class="fas fa-user"></i></a>
                                         @endif
                                         <a class="mobile-hide search-bar-icon" href="{{ route('cart') }}"><i
