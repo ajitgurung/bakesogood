@@ -18,6 +18,7 @@
     <!-- check out section -->
     <form action="{{ route('checkout.placeorder') }}" method="POST" id="payment-form">
         @csrf
+        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
         <div class="checkout-section mt-150 mb-150">
             <div class="container">
                 <div class="row">
@@ -25,7 +26,7 @@
                         <div class="checkout-accordion-wrap">
                             <div class="accordion" id="accordionExample">
                                 <!-- Billing Address -->
-                                <div class="card single-accordion">
+                                {{-- <div class="card single-accordion">
                                     <div class="card-header" id="headingOne">
                                         <h5 class="mb-0">
                                             <button class="btn btn-link" type="button" data-toggle="collapse"
@@ -70,34 +71,33 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <!-- Shipping Address -->
                                 <div class="card single-accordion">
                                     <div class="card-header" id="headingTwo">
                                         <h5 class="mb-0">
-                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                                data-target="#collapseTwo" aria-expanded="false"
-                                                aria-controls="collapseTwo">
+                                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                                data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                                                 Shipping Address
                                             </button>
                                         </h5>
                                     </div>
-                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
                                         data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="billing-address-form">
-                                                <p><button type="button" onclick="copyBillingToShipping()">Copy Billing
-                                                        Address to Shipping</button></p>
+                                                {{-- <p><button type="button" onclick="copyBillingToShipping()">Copy Billing
+                                                        Address to Shipping</button></p> --}}
 
                                                 <p><input type="text" placeholder="Name" name="shipping[name]"
-                                                        id="shipping-name"></p>
+                                                        id="shipping-name" required></p>
                                                 <p><input type="email" placeholder="Email" name="shipping[email]"
-                                                        id="shipping-email"></p>
+                                                        id="shipping-email" required></p>
                                                 <p><input type="text" name="shipping[address_line_1]"
-                                                        placeholder="Address Line 1" id="shipping-address"></p>
+                                                        placeholder="Address Line 1" id="shipping-address" required></p>
                                                 <p>
-                                                    <select name="shipping[country]" id="shipping-country">
+                                                    <select name="shipping[country]" id="shipping-country" disabled>
                                                         @foreach ($countries as $country)
                                                             <option value="{{ $country['iso_3166_1_alpha2'] }}"
                                                                 {{ $country['name'] == 'Canada' ? 'selected' : '' }}>
@@ -106,18 +106,18 @@
                                                     </select>
                                                 </p>
                                                 <p>
-                                                    <select name="shipping[state]" id="shipping-state">
+                                                    <select name="shipping[state]" id="shipping-state" required>
                                                         <option value="">Select State</option>
                                                     </select>
                                                 </p>
                                                 <p>
                                                     <input type="text" name="shipping[city]" placeholder="City"
-                                                        class="col-lg-5" id="shipping-city">
+                                                        class="col-lg-5" id="shipping-city" required>
                                                     <input type="text" name="shipping[zipcode]" placeholder="Zipcode"
-                                                        class="col-lg-5" id="shipping-zipcode">
+                                                        class="col-lg-5" id="shipping-zipcode" required>
                                                 </p>
                                                 <p><input type="tel" placeholder="Phone" name="shipping[phone]"
-                                                        id="shipping-phone"></p>
+                                                        id="shipping-phone" required></p>
                                                 <p>
                                                     <textarea name="shipping[note]" id="bill" cols="30" rows="10" placeholder="Say Something"></textarea>
                                                 </p>
@@ -127,7 +127,7 @@
                                 </div>
 
                                 <!-- Card Details -->
-                                <div class="card single-accordion">
+                                {{-- <div class="card single-accordion">
                                     <div class="card-header" id="headingThree">
                                         <h5 class="mb-0">
                                             <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
@@ -148,23 +148,11 @@
                                                 <div id="card-element">
                                                     <!-- A Stripe Element will be inserted here. -->
                                                 </div>
-                                                {{-- <p>
-                                                    <input type="text" id="cardholderName" name="card['holder_name']"
-                                                        required placeholder="Card Holder Name">
-                                                </p>
-                                                <p><input type="number" placeholder="Card Number" name="card['number']"
-                                                        class="col-lg-12"></p>
-                                                <p><input type="text" id="expiration" name="card[expiration]"
-                                                        placeholder="Expiration Date (MM/YYYY)" pattern="\d{2}/\d{4}"
-                                                        maxlength="7" onfocus="this.type='month'; this.focus();"
-                                                        onblur="if(this.value === '') { this.type='text'; }">
-                                                </p>
-                                                <p><input type="number" placeholder="Card CVC" name="card['cvc']"> </p> --}}
                                                 <div id="card-errors" role="alert"></div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -197,21 +185,20 @@
 
                                 <tbody class="checkout-details">
                                     <tr>
-                                        <td>Subtotal</td>
+                                        <td>Total</td>
                                         <td colspan="2">${{ $cart['total'] }}</td>
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <td>Shipping</td>
                                         <td colspan="2">$50</td>
-                                    </tr>
-                                    <tr>
+                                    </tr> --}}
+                                    {{-- <tr>
                                         <td>Total</td>
                                         <td colspan="2">${{ $cart['total'] + 50 }}</td>
-                                        <!-- Assuming $50 shipping cost -->
-                                    </tr>
+                                    </tr> --}}
                                 </tbody>
                             </table>
-                            <button type="submit" class="boxed-btn">Place Order</button>
+                            <button type="submit" class="boxed-btn" style="margin-top: 25px;">Place Order</button>
                         </div>
                     </div>
                 </div>
@@ -309,62 +296,6 @@
             document.getElementById('shipping-city').disabled = true;
             document.getElementById('shipping-zipcode').disabled = true;
             document.getElementById('shipping-phone').disabled = true;
-        }
-    </script>
-
-    <script>
-        // Initialize Stripe with your publishable key
-        var stripe = Stripe(
-            'pk_test_51PnWYVH5F7vzbepkdbI5xuhkzY0t2DlC9SZpwrUbDpY9IHngi3rWAud608gb0iECmmigh2IsUIWIphmCvO6l04xB00c1wDLQma'
-            );
-        var elements = stripe.elements();
-
-        // Create an instance of the card Element.
-        var card = elements.create('card');
-
-        // Add an instance of the card Element into the `card-element` <div>.
-        card.mount('#card-element');
-
-        // Handle real-time validation errors from the card Element.
-        card.on('change', function(event) {
-            var displayError = document.getElementById('card-errors');
-            if (event.error) {
-                displayError.textContent = event.error.message;
-            } else {
-                displayError.textContent = '';
-            }
-        });
-
-        // Handle form submission.
-        var form = document.getElementById('payment-form');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            stripe.createToken(card).then(function(result) {
-                if (result.error) {
-                    // Inform the user if there was an error.
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    // Send the token to your server.
-                    stripeTokenHandler(result.token);
-                }
-            });
-        });
-
-        // Submit the form with the token ID.
-        function stripeTokenHandler(token) {
-            var form = document.getElementById('payment-form');
-
-            // Insert the token ID into the form so it gets submitted to the server.
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            form.appendChild(hiddenInput);
-
-            // Submit the form.
-            form.submit();
         }
     </script>
 @endpush

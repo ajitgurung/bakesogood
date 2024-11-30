@@ -47,66 +47,44 @@ class CheckoutController extends Controller
 
     public function placeOrder(Request $request)
     {
-        $stripeSecretKey = env('STRIPE_SECRET');
-        \Stripe\Stripe::setApiKey($stripeSecretKey);
+        $request->validate([
+            'shipping.name' => 'required|string|max:255',
+            'shipping.email' => 'required|email|max:255',
+            'shipping.address_line_1' => 'required|string|max:255',
+            'shipping.state' => 'required|string|max:255',
+            'shipping.city' => 'required|string|max:255',
+            'shipping.zipcode' => 'required|string|max:20',
+            'shipping.phone' => 'required|string|max:15',
+            'shipping.note' => 'nullable|string|max:500',
+        ]);
 
-        $stripeToken = $request->input('stripeToken');
+        $cart = Session::get('cart');
 
-        // Optionally, check for token existence and validity
-        if (!$stripeToken) {
-            return redirect()->back()->withErrors('Payment token was not generated correctly.');
-        }
+        $order = new Order();
+        $order->user_id = auth()->user()->id ?? null;
+        $order->order_number = $this->getNextOrderNumber();
+        $order->payment_status = 'pending';
+        $order->order_status = 'processing';
+        $order->taxes = 0.13 * $cart['total'];
 
-        try {
-            // Create a charge or use Payment Intents API for more complex scenarios
-            $cart = Session::get('cart');
+        if ($order->save()) {
+            $this->saveAddress($order->id, $request->shipping, 'shipping');
 
-            $charge = \Stripe\Charge::create([
-                'amount' => $cart['total'] * 100, // Amount in cents
-                'currency' => 'CAD',
-                'source' => $stripeToken,
-                'description' => json_encode($cart),
-            ]);
-
-            $order = new Order();
-            $order->user_id = auth()->user()->id ?? null;
-            $order->order_number = $this->getNextOrderNumber();
-            $order->total_amount = $cart['total'];
-            $order->payment_status = 'completed';
-            $order->order_status = 'processing';
-
-            if ($order->save()) {
-                $this->saveAddress($order->id, $request->billing, 'billing');
-
-                if (count($request->shipping) == 1) {
-                    $this->duplicateAddressAsShipping($order->id, $request->billing);
-                } else {
-                    $this->saveAddress($order->id, $request->shipping, 'shipping');
-                }
-
-                foreach ($cart['products'] as $item) {
-                    $product = Product::where('slug', $item['slug'])->firstOrFail();
-                    OrderItem::create([
-                        'order_id' => $order->id,
-                        'product_id' => $product->id,
-                        'quantity' => $item['quantity'],
-                        'price' => $product->price,
-                        'total' => $item['subtotal'],
-                    ]);
-                }
-
-                session()->forget('cart');
+            foreach ($cart['products'] as $item) {
+                $product = Product::where('slug', $item['slug'])->firstOrFail();
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $product->id,
+                    'quantity' => $item['quantity'],
+                    'price' => $product->price,
+                    'total' => $item['subtotal'],
+                ]);
             }
 
-            return redirect()->route('home')->with('success', 'Your order has been placed successfully!');
-
-        } catch (\Stripe\Exception\CardException $e) {
-            // Handle the exception properly
-            return redirect()->back()->with('error', $e->getMessage()); // Correctly passing the error message
-        } catch (\Exception $e) {
-            // Handle general exceptions
-            return redirect()->back()->with('error', 'An error occurred while processing your order.');
+            session()->forget('cart');
         }
+
+        return redirect()->route('home')->with('success', 'Your order has been placed successfully!');
     }
 
     protected function saveAddress(int $orderId, array $addressData, string $addressType)
@@ -117,7 +95,7 @@ class CheckoutController extends Controller
             'name' => $addressData['name'],
             'email' => $addressData['email'],
             'address_line_1' => $addressData['address_line_1'],
-            'country' => $addressData['country'],
+            'country' => 'Canada',
             'state' => $addressData['state'],
             'city' => $addressData['city'],
             'postal_code' => $addressData['zipcode'],
