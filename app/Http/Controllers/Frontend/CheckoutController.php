@@ -83,7 +83,7 @@ class CheckoutController extends Controller
                     'total' => $item['subtotal'],
                 ]);
             }
-            $adminEmail = Setting::select('site_email')->here('id', 1)->first();
+            $adminEmail = Setting::select('site_email')->where('id', 1)->first();
             Mail::to($request->shipping['email'], $adminEmail)->queue(new OrderPlaced($order));
 
             session()->forget('cart');
