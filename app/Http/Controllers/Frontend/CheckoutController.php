@@ -84,7 +84,7 @@ class CheckoutController extends Controller
                 ]);
             }
             $adminEmail = Setting::select('site_email')->where('id', 1)->first();
-            Mail::to($request->shipping['email'], $adminEmail)->send(new OrderPlaced($order));
+            Mail::to([$request->shipping['email'], $adminEmail])->send(new OrderPlaced($order));
 
             session()->forget('cart');
         }
