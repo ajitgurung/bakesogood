@@ -30,8 +30,8 @@
                                     <p class="subtitle">{{ $slider->sub_title }}</p>
                                     <h1>{{ $slider->title }}</h1>
                                     <div class="hero-btns">
-                                        <a href="shop.html" class="boxed-btn">Fruit Collection</a>
-                                        <a href="contact.html" class="bordered-btn">Contact Us</a>
+                                        <a href="{{ route('shop', 'all') }}" class="boxed-btn">Sweet Collection</a>
+                                        <a href="{{ route('contact') }}" class="bordered-btn">Contact Us</a>
                                     </div>
                                 </div>
                             </div>
