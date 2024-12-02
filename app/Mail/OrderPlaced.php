@@ -37,9 +37,7 @@ class OrderPlaced extends Mailable
     {
         return new Content(
             view: 'emails.order_placed',
-            with: [
-                'order' => $this->order,
-            ],
+            with: ['order' => $this->order]
         );
     }
 
