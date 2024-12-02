@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderPlaced;
 use App\Models\Address;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Rinvex\Country\CountryLoader;
 
@@ -80,6 +83,8 @@ class CheckoutController extends Controller
                     'total' => $item['subtotal'],
                 ]);
             }
+            $adminEmail = Setting::select('site_email')->here('id', 1)->first();
+            Mail::to($request->shipping['email'], $adminEmail)->queue(new OrderPlaced($order));
 
             session()->forget('cart');
         }
