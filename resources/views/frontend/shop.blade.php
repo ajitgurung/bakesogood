@@ -45,7 +45,7 @@
             @if ($products)
                 <div class="row product-lists">
                     @foreach ($products as $product)
-                        <div class="col-lg-4 col-md-6 text-center {{ $product->category->slug }}">
+                        <div class="col-lg-4 col-md-6 text-center {{ $product->category->slug ?? '' }}">
                             <div class="single-product-item">
                                 <div class="product-image">
                                     <a href="{{ route('product', $product->slug) }}"><img

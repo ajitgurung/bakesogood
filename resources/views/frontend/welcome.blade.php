@@ -96,10 +96,13 @@
                     <div class="text-center col-lg-4 col-md-6">
                         <div class="single-product-item">
                             <div class="product-image">
-                                <a href="single-product.html"><img src="{{ asset('storage/' . $product->image) }}"
-                                        alt="" width="200" height="250"></a>
+                                <a href="{{ route('product', $product->slug) }}"><img
+                                        src="{{ asset('storage/' . $product->image) }}" alt="" width="200"
+                                        height="250"></a>
                             </div>
-                            <h3>{{ $product->name }}</h3>
+                            <a href="{{ route('product', $product->slug) }}">
+                                <h3>{{ $product->name }}</h3>
+                            </a>
                             <p class="product-price">
                                 {{-- <span>Per Kg</span>  --}}
                                 ${{ $product->price }} </p>
