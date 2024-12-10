@@ -56,7 +56,7 @@
             /* Adjust as needed */
             right: -5px;
             /* Adjust as needed */
-            background-color: #f28123;
+            background-color: #588157;
             /* Background color for the number */
             color: white;
             /* Text color */
@@ -146,7 +146,7 @@
                                 @endphp
                                 <li>
                                     <div class="header-icons">
-                                        <a class="shopping-cart" href="{{ route('cart') }}"><i
+                                        <a class="mobile-hide shopping-cart" href="{{ route('cart') }}"><i
                                                 class="fas fa-shopping-cart"></i><span
                                                 class="cart-count">{{ $qty ?? 0 }}</span></a>
                                         @if (auth()->check())
@@ -160,6 +160,9 @@
                                 </li>
                             </ul>
                         </nav>
+                        <a class="mobile-show shopping-cart" href="{{ route('cart') }}"><i
+                                class="fas fa-shopping-cart"></i><span
+                                class="cart-count">{{ $qty ?? 0 }}</span></a>
                         <a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
                         <div class="mobile-menu"></div>
                         <!-- menu end -->
