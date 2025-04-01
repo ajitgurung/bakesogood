@@ -37,6 +37,8 @@
     <!-- responsive -->
     <link rel="stylesheet" href="{{ asset('frontend/css/responsive.css') }}">
 
+    <meta name="google-site-verification" content="YNP2ZDEDvxixWlIkc35W38X9Rc8fDsLXxbId7C3s8tY" />
+
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     @stack('after-styles')
