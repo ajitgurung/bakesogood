@@ -53,7 +53,7 @@ class MessageController extends Controller
         $message = DB::table('messages')->insert($data);
 
         if ($message) {
-            Mail::to('ajit@goodiesbakery.ca', 'barbara@gmail.com')->send(new ContactFormMail($data));
+            Mail::to(['ajit@goodiesbakery.ca', 'barbara@gmail.com'])->send(new ContactFormMail($data));
             return redirect()->back()->with('success', 'Message delivered successfully!');
         } else {
             return redirect()->back()->with('error', 'Message failed to be delivered!');
